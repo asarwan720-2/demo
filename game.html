@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,11 +8,15 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
+*{
+  box-sizing:border-box;
+}
+
 body{
-  font-family:Arial;
+  font-family:Arial,sans-serif;
   margin:0;
   background:#e5e7eb;
-  padding-bottom:80px
+  padding-bottom:80px;
 }
 
 .header{
@@ -26,7 +29,7 @@ body{
   border-radius:20px;
   display:flex;
   justify-content:space-between;
-  z-index:999
+  z-index:999;
 }
 
 #userId{
@@ -34,7 +37,7 @@ body{
   color:#fff;
   padding:6px 12px;
   border-radius:20px;
-  font-size:12px
+  font-size:12px;
 }
 
 #walletBalance{
@@ -42,24 +45,25 @@ body{
   color:#fff;
   padding:6px 12px;
   border-radius:20px;
-  font-size:12px
+  font-size:12px;
 }
 
 .topBtns{
   margin-top:80px;
   display:flex;
   justify-content:space-around;
-  gap:5px
+  gap:5px;
+  padding:0 5px;
 }
 
 .topBtn{
   width:18%;
-  padding:10px;
+  padding:10px 4px;
   border-radius:20px;
   color:#fff;
   text-align:center;
   cursor:pointer;
-  font-size:12px
+  font-size:12px;
 }
 
 .btn1{background:#6c5ce7}
@@ -73,13 +77,17 @@ body{
   background:#fff;
   padding:15px;
   border-radius:15px;
-  padding-bottom:150px
+  padding-bottom:150px;
+}
+
+.container h3{
+  margin-top:0;
 }
 
 .grid{
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:10px
+  gap:10px;
 }
 
 .box{
@@ -87,21 +95,30 @@ body{
   padding:10px;
   border-radius:10px;
   text-align:center;
-  border:1px solid #ddd
+  border:1px solid #ddd;
+  font-weight:bold;
 }
 
 input{
   width:90%;
+  margin-top:7px;
   padding:8px;
   border-radius:10px;
-  border:1px solid #ccc
+  border:1px solid #ccc;
+  outline:none;
+}
+
+input:focus{
+  border-color:green;
 }
 
 .bottom{
   position:fixed;
   bottom:0;
+  left:0;
   width:100%;
-  display:flex
+  display:flex;
+  z-index:1000;
 }
 
 .total{
@@ -109,7 +126,7 @@ input{
   background:linear-gradient(to right,blue,red);
   color:#fff;
   text-align:center;
-  padding:15px
+  padding:15px;
 }
 
 .submit{
@@ -120,19 +137,43 @@ input{
   padding:15px;
   font-weight:bold;
   font-size:16px;
-  cursor:pointer
+  cursor:pointer;
+}
+
+@media(max-width:360px){
+  .grid{
+    gap:7px;
+  }
+
+  .box{
+    padding:8px 4px;
+    font-size:13px;
+  }
+
+  .topBtn{
+    font-size:10px;
+    padding:9px 2px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">
-  <div id="userId">ID: DEMO</div>
+<!-- ================= HEADER ================= -->
 
-  <!-- Wallet balance wallet.js se aayega -->
+<div class="header">
+
+  <!-- Supabase se user ID aayegi -->
+  <div id="userId">ID: Loading...</div>
+
+  <!-- Supabase login.balance se balance aayega -->
   <div id="walletBalance">₹ 0</div>
+
 </div>
+
+
+<!-- ================= GAME BUTTONS ================= -->
 
 <div class="topBtns">
 
@@ -163,6 +204,9 @@ input{
 
 </div>
 
+
+<!-- ================= JODI ================= -->
+
 <div class="container">
 
   <h3>JODI</h3>
@@ -170,6 +214,9 @@ input{
   <div class="grid" id="jodiGrid"></div>
 
 </div>
+
+
+<!-- ================= BOTTOM ================= -->
 
 <div class="bottom">
 
@@ -183,20 +230,23 @@ input{
 
 </div>
 
+
+<!-- ================= JODI SCRIPT ================= -->
+
 <script>
 
-let dataArr=[];
-let total=0;
+let dataArr = [];
+let total = 0;
 
 
-/* ================= JODI GRID ================= */
+/* ================= CREATE 00-99 ================= */
 
-for(let i=0;i<100;i++){
+for(let i = 0; i < 100; i++){
 
-  let num=i.toString().padStart(2,'0');
+  let num = i.toString().padStart(2,'0');
 
   document.getElementById("jodiGrid").innerHTML += `
-  
+
     <div class="box">
 
       ${num}
@@ -204,12 +254,14 @@ for(let i=0;i<100;i++){
       <input
         type="number"
         min="0"
+        inputmode="numeric"
         oninput="add('${num}',this.value)"
       >
 
     </div>
-  
+
   `;
+
 }
 
 
@@ -217,13 +269,13 @@ for(let i=0;i<100;i++){
 
 function add(num,val){
 
-  val=Number(val)||0;
+  val = Number(val) || 0;
 
-  dataArr=dataArr.filter(
-    x=>x.number!==num
+  dataArr = dataArr.filter(
+    x => x.number !== num
   );
 
-  if(val>0){
+  if(val > 0){
 
     dataArr.push({
       number:num,
@@ -233,6 +285,7 @@ function add(num,val){
   }
 
   updateTotal();
+
 }
 
 
@@ -240,14 +293,17 @@ function add(num,val){
 
 function updateTotal(){
 
-  total=0;
+  total = 0;
 
-  dataArr.forEach(x=>{
-    total+=x.points;
+  dataArr.forEach(x => {
+
+    total += x.points;
+
   });
 
   document.getElementById("total").innerText =
-    "Demo Points: "+total;
+    "Demo Points: " + total;
+
 }
 
 
@@ -255,27 +311,36 @@ function updateTotal(){
 
 function submitDemo(){
 
-  if(dataArr.length===0){
+  if(dataArr.length === 0){
 
     alert("Pehle demo points add karo");
 
     return;
+
   }
 
+
   alert(
-    "DEMO SUBMITTED ✅\n\n"+
-    "Total Demo Points: "+total+
+    "DEMO SUBMITTED ✅\n\n" +
+    "Total Demo Points: " + total +
     "\n\nKoi real money deduct nahi hua."
   );
 
-  dataArr=[];
-  total=0;
+
+  dataArr = [];
+
+  total = 0;
 
   updateTotal();
 
-  document.querySelectorAll("input").forEach(input=>{
-    input.value="";
-  });
+
+  document
+    .querySelectorAll("#jodiGrid input")
+    .forEach(input => {
+
+      input.value = "";
+
+    });
 
 }
 
@@ -288,4 +353,3 @@ function submitDemo(){
 
 </body>
 </html>
-```
