@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login</title>
+<link rel="manifest" href="manifest.json">
+<style>
+body {
+  margin:0;
+  font-family: Arial;
+  background:#eee;
+  text-align:center;
+}
+
+h1{
+  color:red;
+  margin-top:40px;
+}
+
+.input-box{
+  width:80%;
+  margin:15px auto;
+  padding:15px;
+  border-radius:15px;
+  border:none;
+  box-shadow:0 2px 8px rgba(0,0,0,0.2);
+}
+
+button{
+  width:80%;
+  padding:15px;
+  background:red;
+  color:#fff;
+  border:none;
+  border-radius:30px;
+  font-size:18px;
+}
+
+.register{
+  background:#3498db;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>Login</h1>
+
+<input type="text" id="mobile" class="input-box" placeholder="Mobile Number">
+<input type="password" id="password" class="input-box" placeholder="Password">
+
+<button onclick="login()">LOGIN</button>
+
+<p>New User?</p>
+<button class="register" onclick="window.location.href='signup.html'">REGISTER NOW</button>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL = "https://katbdbzoufiblnnsoxkk.supabase.co";
+const SUPABASE_KEY = "sb_publishable_--fdpQMmSlUyt2ywjUErgQ_LXGvQH-a";
+
+const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// 🔥 AUTO LOGIN CHECK
+let user = localStorage.getItem("user");
+if(user){
+  window.location.href = "home.html";
+}
+
+async function login(){
+
+let mobile = document.getElementById("mobile").value.trim();
+let password = document.getElementById("password").value.trim();
+
+if(!mobile || !password){
+  alert("Fill all fields");
+  return;
+}
+
+try{
+
+let { data, error } = await client
+.from("login")
+.select("id, mobile")
+.eq("mobile", mobile)
+.eq("password", password)
+.single();
+
+if(error || !data){
+  alert("Wrong Mobile or Password ❌");
+  return;
+}
+
+// 🔥 CLEAR OLD
+localStorage.clear();
+
+// 🔥 SAVE USER (OLD SYSTEM SAFE)
+localStorage.setItem("user", JSON.stringify({
+  id: Number(data.id),
+  mobile: data.mobile
+}));
+
+// ✅ NEW (IMPORTANT FOR WINNING PAGE)
+localStorage.setItem("user_id", data.id);
+
+console.log("LOGIN USER:", data);
+
+alert("Login Success ✅");
+window.location.href = "home.html";
+
+}catch(err){
+  console.log("LOGIN ERROR:", err);
+  alert("Server Error ❌");
+}
+
+}
+
+</script>
+
+</body>
+</html>

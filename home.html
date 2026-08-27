@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Home</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+body{
+ *{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+  margin:0;
+  padding:0;
+  width:100%;
+  min-height:100%;
+}
+
+body{
+  font-family:Arial,sans-serif;
+  background:#f2f2f2;
+  overflow-x:hidden;
+  padding-bottom:85px;
+}
+
+/* TOP */
+#menuBtn{
+  position:fixed;
+  left:12px;
+  top:16px;
+  font-size:22px;
+  z-index:999;
+  cursor:pointer;
+}
+
+#userId{
+  position:fixed;
+  left:52px;
+  top:12px;
+  background:green;
+  color:white;
+  padding:8px 14px;
+  border-radius:20px;
+  font-weight:bold;
+  z-index:999;
+  max-width:45%;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+
+#wallet{
+  position:fixed;
+  right:12px;
+  top:12px;
+  background:red;
+  color:white;
+  padding:8px 14px;
+  border-radius:20px;
+  font-weight:bold;
+  z-index:999;
+  cursor:pointer;
+  max-width:35%;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+
+/* ACTION */
+.actionBar{
+  margin-top:75px;
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  padding:10px;
+}
+
+.actionBtn{
+  flex:1;
+  width:auto;
+  padding:12px 6px;
+  border-radius:25px;
+  text-align:center;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+  font-size:14px;
+}
+
+.add{background:green;}
+.withdraw{background:#ff4d4d;}
+.share{background:#6c5ce7;}
+
+/* FRAME */
+.pageFrame{
+  width:100%;
+  height:150px;
+  margin:5px 0 10px;
+  overflow:hidden;
+}
+
+.pageFrame iframe{
+  width:100%;
+  height:100%;
+  border:0;
+  display:block;
+}
+
+/* GAME BOX AREA */
+.container{
+  width:100%;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+  padding:10px;
+  padding-bottom:100px;
+}
+
+.btn{
+  width:100%;
+  min-width:0;
+  background:#fff;
+  border:3px solid green;
+  border-radius:18px;
+  padding:13px 8px;
+  text-align:center;
+}
+
+.gameName{
+  font-size:17px;
+  font-weight:bold;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.gameNumber{
+  font-size:25px;
+  color:red;
+  font-weight:bold;
+  margin:5px 0;
+}
+
+.gameTime{
+  font-size:13px;
+  color:#1e73be;
+  margin-bottom:8px;
+}
+
+.status img{
+  width:60px;
+  margin-top:8px;
+}
+
+/* WHATSAPP */
+.whatsapp{
+  position:fixed;
+  right:14px;
+  bottom:75px;
+  width:52px;
+  height:52px;
+  background:#25D366;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  font-size:27px;
+  z-index:998;
+}
+
+/* BOTTOM NAV */
+#bottomNav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  height:65px;
+  background:#fff;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  padding:5px 4px;
+  z-index:1000;
+  box-shadow:0 -2px 10px rgba(0,0,0,.12);
+}
+
+.navBtn{
+  width:23%;
+  height:44px;
+  background:#eee;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  font-size:14px;
+}
+
+.active{
+  background:green;
+  color:white;
+}
+
+/* SMALL PHONES */
+@media(max-width:360px){
+  .actionBtn{
+    font-size:12px;
+    padding:11px 4px;
+  }
+
+  .container{
+    gap:8px;
+    padding:8px;
+    padding-bottom:100px;
+  }
+
+  .btn{
+    padding:11px 6px;
+  }
+
+  .gameName{
+    font-size:15px;
+  }
+
+  .gameNumber{
+    font-size:23px;
+  }
+
+  .navBtn{
+    font-size:12px;
+  }
+}
+
+/* LARGE MOBILE / TABLET */
+@media(min-width:600px){
+  .container{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+
+  .pageFrame{
+    height:160px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div id="menuBtn" onclick="openMenu()">☰</div>
+<div id="userId">ID: 0000</div>
+
+<!-- 🔥 CLICKABLE WALLET -->
+<div id="wallet" onclick="goWallet()">₹ 0</div>
+
+<div class="actionBar">
+  <div class="actionBtn add" onclick="go('deposit.html')">Add Money</div>
+  <div class="actionBtn withdraw" onclick="go('withdraw.html')">Withdraw</div>
+  <div class="actionBtn share" onclick="shareApp()">Share</div>
+</div>
+
+
+<!-- 🔥 FRAME GAME BOX KE UPAR -->
+<div class="pageFrame">
+  <iframe src="wallet.html"></iframe>
+</div>
+
+
+<div class="container" id="container"></div>
+
+<a class="whatsapp" href="https://api.whatsapp.com/send?phone=919053922906" target="_blank">💬</a>
+
+<!-- 🔥 UPDATED NAV -->
+<div id="bottomNav">
+  <div class="navBtn active">Home</div>
+  <div class="navBtn">Game</div>
+  <div class="navBtn" onclick="goWallet()">Wallet</div>
+  <div class="navBtn">Profile</div>
+</div>
+
+<script src="menu.js"></script>
+
+<script>
+const user = JSON.parse(localStorage.getItem("user"));
+
+if(!user){
+  window.location.href = "index.html";
+}
+
+const client = supabase.createClient(
+  "https://katbdbzoufiblnnsoxkk.supabase.co",
+  "sb_publishable_--fdpQMmSlUyt2ywjUErgQ_LXGvQH-a"
+);
+
+async function loadWallet(){
+  const { data } = await client
+    .from("login")
+    .select("balance")
+    .eq("id", user.id)
+    .single();
+
+  if(data){
+    document.getElementById("wallet").innerText = "₹ " + data.balance;
+    document.getElementById("userId").innerText = "ID: " + user.id;
+  }
+}
+
+function checkStatus(openTime, closeTime){
+  if(!openTime || !closeTime) return false;
+
+  let now = new Date();
+
+  const [oh, om] = openTime.split(":");
+  const [ch, cm] = closeTime.split(":");
+
+  let open = new Date();
+  open.setHours(oh, om, 0);
+
+  let close = new Date();
+  close.setHours(ch, cm, 0);
+
+  if(close < open){
+    close.setDate(close.getDate() + 1);
+    if(now < open){
+      now.setDate(now.getDate() + 1);
+    }
+  }
+
+  return (now >= open && now <= close);
+}
+
+async function loadButtons(){
+
+  let { data } = await client
+  .from("Game result")
+  .select("name, number, open, close");
+
+  data.sort((a, b) => {
+    return checkStatus(b.open, b.close) - checkStatus(a.open, a.close);
+  });
+
+  let container = document.getElementById("container");
+  container.innerHTML = "";
+
+  data.forEach(item => {
+
+    let isOpen = checkStatus(item.open, item.close);
+
+    let btn = document.createElement("div");
+    btn.className = "btn";
+
+    btn.innerHTML = `
+      <div class="gameName">${item.name}</div>
+      <div class="gameNumber">${item.number || '**'}</div>
+      <div class="gameTime">${item.open} - ${item.close}</div>
+      <div class="status">
+        <img src="${isOpen 
+          ? 'https://cdn-icons-png.flaticon.com/512/190/190411.png' 
+          : 'https://cdn-icons-png.flaticon.com/512/463/463612.png'}">
+      </div>
+    `;
+
+    if(isOpen){
+      btn.onclick = () => {
+        localStorage.setItem("market", item.name);
+        window.location.href = "game.html";
+      };
+    } else {
+      btn.style.opacity = "0.6";
+    }
+
+    container.appendChild(btn);
+  });
+}
+
+function go(page){
+  window.location.href = page;
+}
+
+function shareApp(){
+  navigator.share({
+    title: "My App",
+    text: "Join now",
+    url: window.location.href
+  });
+}
+
+function goWallet(){
+  window.location.href = "wallet.html";
+}
+
+function logout(){
+  localStorage.removeItem("user");
+  window.location.href = "index.html";
+}
+
+loadWallet();
+loadButtons();
+
+setInterval(()=>{
+  loadButtons();
+  loadWallet();
+},60000);
+</script>
+
+</body>
+</html>
