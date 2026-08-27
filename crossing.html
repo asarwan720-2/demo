@@ -1,0 +1,153 @@
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CROSSING</title>
+
+<style>
+body{font-family:Arial;margin:0;background:#e5e7eb;padding-bottom:80px}
+.header{position:fixed;top:10px;left:10px;right:10px;background:#fff;padding:10px;border-radius:20px;display:flex;justify-content:space-between;z-index:999}
+#userId{background:green;color:#fff;padding:6px 12px;border-radius:20px;font-size:12px}
+#wallet{background:red;color:#fff;padding:6px 12px;border-radius:20px;font-size:12px}
+.topBtns{margin-top:80px;display:flex;justify-content:space-around;gap:5px}
+.topBtn{width:18%;padding:10px;border-radius:20px;color:#fff;text-align:center;cursor:pointer;font-size:12px}
+.btn1{background:#6c5ce7}.btn2{background:#00b894}.btn3{background:#0984e3}.btn4{background:#e17055}.btn5{background:#111}
+.container{margin:10px;background:#fff;padding:15px;border-radius:15px;padding-bottom:150px}
+input{width:100%;box-sizing:border-box;padding:10px;margin:5px 0 12px;border-radius:10px;border:1px solid #ccc}
+button{padding:10px 20px;border:0;border-radius:10px;background:#0984e3;color:#fff;font-weight:bold}
+#crossGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:15px}
+.box{padding:12px;text-align:center;border:1px solid #ddd;border-radius:10px;background:#fff}
+.bottom{position:fixed;bottom:0;width:100%;display:flex}
+.total{width:50%;background:linear-gradient(to right,blue,red);color:#fff;text-align:center;padding:15px}
+.submit{width:50%;background:green;color:#fff;text-align:center;padding:15px;font-weight:bold;font-size:16px;cursor:pointer}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+<div id="userId">ID: DEMO</div>
+<div id="wallet">Demo Points: 1000</div>
+</div>
+
+<div class="topBtns">
+<div class="topBtn btn1" onclick="location.href='jodi.html'">JODI</div>
+<div class="topBtn btn2" onclick="location.href='haruf.html'">HARUF</div>
+<div class="topBtn btn3" onclick="location.href='crossing.html'">CROSSING</div>
+<div class="topBtn btn4" onclick="location.href='copy.html'">COPY</div>
+<div class="topBtn btn5" onclick="location.href='play.html'">TYP/IMAGE</div>
+</div>
+
+<div class="container">
+
+<h3>CROSSING</h3>
+
+<label>1ST NUMBER</label>
+<input id="num1" placeholder="Example: 123">
+
+<label>2ND NUMBER</label>
+<input id="num2" placeholder="Example: 456">
+
+<label>DEMO POINTS</label>
+<input id="points" type="number" min="0">
+
+<button onclick="generateCross()">SET</button>
+
+<div id="crossGrid"></div>
+
+</div>
+
+<div class="bottom">
+<div class="total" id="total">Demo Points: 0</div>
+<div class="submit" onclick="submitDemo()">SUBMIT</div>
+</div>
+
+<script>
+
+let dataArr=[];
+let total=0;
+
+function generateCross(){
+
+    let n1=document.getElementById("num1").value.trim();
+    let n2=document.getElementById("num2").value.trim();
+    let a=Number(document.getElementById("points").value)||0;
+
+    if(!n1 || !n2 || a<=0){
+        alert("Sabhi details bharo");
+        return;
+    }
+
+    dataArr=[];
+    document.getElementById("crossGrid").innerHTML="";
+
+    for(let i of n1){
+
+        for(let j of n2){
+
+            let pair=i+j;
+
+            let exist=dataArr.find(x=>x.number===pair);
+
+            if(exist){
+                exist.points+=a;
+            }else{
+                dataArr.push({
+                    number:pair,
+                    points:a
+                });
+            }
+
+            document.getElementById("crossGrid").innerHTML+=`
+            <div class="box">
+                ${pair}<br>
+                Demo: ${a}
+            </div>`;
+        }
+    }
+
+    updateTotal();
+}
+
+function updateTotal(){
+
+    total=0;
+
+    dataArr.forEach(x=>{
+        total+=x.points;
+    });
+
+    document.getElementById("total").innerText=
+        "Demo Points: "+total;
+}
+
+function submitDemo(){
+
+    if(dataArr.length===0){
+        alert("Pehle SET karo");
+        return;
+    }
+
+    alert(
+        "DEMO SUBMITTED ✅\n\n"+
+        "Total Demo Points: "+total+
+        "\n\nKoi real money deduct nahi hua."
+    );
+
+    dataArr=[];
+    total=0;
+
+    updateTotal();
+
+    document.getElementById("num1").value="";
+    document.getElementById("num2").value="";
+    document.getElementById("points").value="";
+    document.getElementById("crossGrid").innerHTML="";
+}
+
+</script>
+
+</body>
+</html>
+```
