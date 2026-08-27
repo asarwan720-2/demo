@@ -1,0 +1,179 @@
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COPY</title>
+
+<style>
+body{font-family:Arial;margin:0;background:#e5e7eb;padding-bottom:80px}
+.header{position:fixed;top:10px;left:10px;right:10px;background:#fff;padding:10px;border-radius:20px;display:flex;justify-content:space-between;z-index:999}
+#userId{background:green;color:#fff;padding:6px 12px;border-radius:20px;font-size:12px}
+#wallet{background:red;color:#fff;padding:6px 12px;border-radius:20px;font-size:12px}
+.topBtns{margin-top:80px;display:flex;justify-content:space-around;gap:5px}
+.topBtn{width:18%;padding:10px;border-radius:20px;color:#fff;text-align:center;cursor:pointer;font-size:12px}
+.btn1{background:#6c5ce7}.btn2{background:#00b894}.btn3{background:#0984e3}.btn4{background:#e17055}.btn5{background:#111}
+.container{margin:10px;background:#fff;padding:15px;border-radius:15px;padding-bottom:150px}
+input{width:100%;box-sizing:border-box;padding:10px;margin:5px 0 12px;border-radius:10px;border:1px solid #ccc}
+button{padding:10px 20px;border:0;border-radius:10px;background:#e17055;color:#fff;font-weight:bold}
+table{margin-top:15px;border-collapse:collapse;width:100%;background:#fff}
+th,td{padding:10px;text-align:center;border:1px solid #ccc}
+.bottom{position:fixed;bottom:0;width:100%;display:flex}
+.total{width:50%;background:linear-gradient(to right,blue,red);color:#fff;text-align:center;padding:15px}
+.submit{width:50%;background:green;color:#fff;text-align:center;padding:15px;font-weight:bold;font-size:16px;cursor:pointer}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+<div id="userId">ID: DEMO</div>
+<div id="wallet">Demo Points: 1000</div>
+</div>
+
+<div class="topBtns">
+<div class="topBtn btn1" onclick="location.href='jodi.html'">JODI</div>
+<div class="topBtn btn2" onclick="location.href='haruf.html'">HARUF</div>
+<div class="topBtn btn3" onclick="location.href='crossing.html'">CROSSING</div>
+<div class="topBtn btn4" onclick="location.href='copy.html'">COPY</div>
+<div class="topBtn btn5" onclick="location.href='play.html'">TYP/IMAGE</div>
+</div>
+
+<div class="container">
+
+<h3>COPY</h3>
+
+<label>ENTER DIGIT</label>
+<input id="digits" placeholder="Example: 123456">
+
+<label>ENTER DEMO POINTS</label>
+<input id="amt" type="number" min="0">
+
+<button onclick="generateCopy()">ADD</button>
+
+<table id="table">
+<tr>
+<th>NUMBER</th>
+<th>POINTS</th>
+<th>DEL</th>
+</tr>
+</table>
+
+</div>
+
+<div class="bottom">
+<div class="total" id="total">Demo Points: 0</div>
+<div class="submit" onclick="submitDemo()">SUBMIT</div>
+</div>
+
+<script>
+
+let dataArr=[];
+let total=0;
+
+function generateCopy(){
+
+    let d=document.getElementById("digits").value.trim();
+    let a=Number(document.getElementById("amt").value)||0;
+
+    if(!d || a<=0){
+        alert("Digit aur points bharo");
+        return;
+    }
+
+    dataArr=[];
+
+    let arr=d.match(/.{1,2}/g);
+
+    arr.forEach(num=>{
+
+        if(num.length===1){
+            num="0"+num;
+        }
+
+        let exist=dataArr.find(x=>x.number===num);
+
+        if(exist){
+            exist.points+=a;
+        }else{
+            dataArr.push({
+                number:num,
+                points:a
+            });
+        }
+    });
+
+    renderTable();
+    updateTotal();
+}
+
+function renderTable(){
+
+    let html=`
+    <tr>
+    <th>NUMBER</th>
+    <th>POINTS</th>
+    <th>DEL</th>
+    </tr>`;
+
+    dataArr.forEach((x,index)=>{
+
+        html+=`
+        <tr>
+        <td>${x.number}</td>
+        <td>${x.points}</td>
+        <td onclick="deleteItem(${index})" style="cursor:pointer">X</td>
+        </tr>`;
+    });
+
+    document.getElementById("table").innerHTML=html;
+}
+
+function deleteItem(index){
+
+    dataArr.splice(index,1);
+
+    renderTable();
+    updateTotal();
+}
+
+function updateTotal(){
+
+    total=0;
+
+    dataArr.forEach(x=>{
+        total+=x.points;
+    });
+
+    document.getElementById("total").innerText=
+        "Demo Points: "+total;
+}
+
+function submitDemo(){
+
+    if(dataArr.length===0){
+        alert("Pehle ADD karo");
+        return;
+    }
+
+    alert(
+        "DEMO SUBMITTED ✅\n\n"+
+        "Total Demo Points: "+total+
+        "\n\nKoi real money deduct nahi hua."
+    );
+
+    dataArr=[];
+    total=0;
+
+    renderTable();
+    updateTotal();
+
+    document.getElementById("digits").value="";
+    document.getElementById("amt").value="";
+}
+
+</script>
+
+</body>
+</html>
+```
