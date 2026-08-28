@@ -1,411 +1,1445 @@
+```html
 <!DOCTYPE html>
-<html>
+<html lang="hi">
+
 <head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
 <title>Home</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<!-- =================================================
+     SUPABASE LIBRARY
+================================================= -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+
+<!-- =================================================
+     YOUR SUPABASE FILE
+     URL / KEY यहां नहीं है
+================================================= -->
+
+<script src="supabase.js"></script>
+
+
+<!-- =================================================
+     YOUR WALLET FILE
+================================================= -->
+
+<script src="wallet.js"></script>
+
+
 <style>
-body{
- *{
+
+/* ================= GLOBAL ================= */
+
+*{
   box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
-}
-
-html,body{
-  margin:0;
-  padding:0;
-  width:100%;
-  min-height:100%;
 }
 
 body{
+  margin:0;
   font-family:Arial,sans-serif;
-  background:#f2f2f2;
-  overflow-x:hidden;
+  background:#f5f5f5;
+  color:#222;
   padding-bottom:85px;
 }
 
-/* TOP */
+
+/* ================= TOP HEADER ================= */
+
+.topHeader{
+  height:188px;
+  background:#d9a92f;
+  position:relative;
+  padding-top:1px;
+}
+
+
+/* MENU */
+
 #menuBtn{
-  position:fixed;
-  left:12px;
-  top:16px;
-  font-size:22px;
+  position:absolute;
+  left:28px;
+  top:104px;
+  color:white;
+  font-size:42px;
+  line-height:35px;
   z-index:999;
   cursor:pointer;
+  font-weight:300;
 }
+
+
+/* USER ID */
 
 #userId{
-  position:fixed;
-  left:52px;
-  top:12px;
-  background:green;
-  color:white;
-  padding:8px 14px;
-  border-radius:20px;
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  top:73px;
+  background:white;
+  color:#222;
+  min-width:238px;
+  text-align:center;
+  padding:14px 25px;
+  border-radius:35px;
+  font-size:27px;
   font-weight:bold;
   z-index:999;
-  max-width:45%;
-  overflow:hidden;
-  white-space:nowrap;
-  text-overflow:ellipsis;
 }
+
+
+/* WALLET */
 
 #wallet{
-  position:fixed;
-  right:12px;
-  top:12px;
-  background:red;
+  position:absolute;
+  right:28px;
+  top:72px;
   color:white;
-  padding:8px 14px;
-  border-radius:20px;
+  padding:8px 4px;
+  font-size:17px;
   font-weight:bold;
   z-index:999;
   cursor:pointer;
-  max-width:35%;
-  overflow:hidden;
-  white-space:nowrap;
-  text-overflow:ellipsis;
-}
-
-/* ACTION */
-.actionBar{
-  margin-top:75px;
-  display:flex;
-  justify-content:space-between;
-  gap:8px;
-  padding:10px;
-}
-
-.actionBtn{
-  flex:1;
-  width:auto;
-  padding:12px 6px;
-  border-radius:25px;
+  width:65px;
   text-align:center;
+}
+
+
+/* HELP */
+
+.helpBox{
+  position:absolute;
+  right:25px;
+  top:116px;
   color:white;
+  text-align:center;
+  font-size:19px;
   font-weight:bold;
-  cursor:pointer;
-  font-size:14px;
 }
 
-.add{background:green;}
-.withdraw{background:#ff4d4d;}
-.share{background:#6c5ce7;}
+.helpIcon{
+  font-size:31px;
+  display:block;
+  margin-bottom:1px;
+}
 
-/* FRAME */
-.pageFrame{
+
+/* ================= MAIN ================= */
+
+.main{
+  padding:18px 14px 0;
+}
+
+
+/* ================= BANNER ================= */
+
+.banner{
   width:100%;
-  height:150px;
-  margin:5px 0 10px;
+  height:238px;
+  border:4px solid #111;
+  border-radius:8px;
   overflow:hidden;
+  background:#fff;
+  margin-bottom:18px;
 }
 
-.pageFrame iframe{
+.banner iframe{
   width:100%;
   height:100%;
   border:0;
   display:block;
 }
 
-/* GAME BOX AREA */
-.container{
-  width:100%;
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:10px;
-  padding:10px;
-  padding-bottom:100px;
-}
 
-.btn{
-  width:100%;
-  min-width:0;
-  background:#fff;
-  border:3px solid green;
-  border-radius:18px;
-  padding:13px 8px;
-  text-align:center;
-}
+/* ================= SLOGAN ================= */
 
-.gameName{
-  font-size:17px;
-  font-weight:bold;
+.sloganBox{
+  width:100%;
   overflow:hidden;
-  text-overflow:ellipsis;
+  background:#fff;
+  border-radius:6px;
+  margin:8px 0 24px;
+  padding:8px 0;
+}
+
+.sloganRunning{
+  display:inline-block;
+  white-space:nowrap;
+  color:#e52b23;
+  font-size:24px;
+  font-weight:bold;
+  padding-left:100%;
+  animation:sloganMove 10s linear infinite;
+}
+
+@keyframes sloganMove{
+
+  from{
+    transform:translateX(0);
+  }
+
+  to{
+    transform:translateX(-100%);
+  }
+
+}
+
+
+/* ================= ACTION BUTTONS ================= */
+
+.actionBar{
+  display:flex;
+  justify-content:space-around;
+  align-items:flex-start;
+  padding:0 5px 20px;
+  gap:8px;
+}
+
+.actionBtn{
+  width:25%;
+  background:transparent;
+  border:0;
+  color:#222;
+  text-align:center;
+  font-weight:bold;
+  cursor:pointer;
+  padding:0;
+}
+
+.actionIcon{
+  width:70px;
+  height:70px;
+  margin:auto;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:45px;
+  background:#fff;
+}
+
+.actionText{
+  margin-top:8px;
+  font-size:17px;
   white-space:nowrap;
 }
 
-.gameNumber{
-  font-size:25px;
-  color:red;
+
+/* ================= MARKET ================= */
+
+.container{
+  width:100%;
+  padding:0;
+}
+
+.marketBox{
+  width:100%;
+  background:#11151e;
+  border-radius:25px;
+  padding:20px 18px;
+  margin-bottom:15px;
+  text-align:center;
+  color:white;
+  box-shadow:0 5px 12px rgba(0,0,0,.18);
+}
+
+.marketBox.openMarket{
+  cursor:pointer;
+}
+
+.marketBox.closedMarket{
+  opacity:.60;
+}
+
+.marketName{
+  font-size:21px;
+  font-weight:bold;
+  margin-bottom:8px;
+}
+
+.marketNumber{
+  font-size:27px;
+  color:#ffd447;
   font-weight:bold;
   margin:5px 0;
 }
 
-.gameTime{
-  font-size:13px;
-  color:#1e73be;
-  margin-bottom:8px;
+.marketTime{
+  color:#ccc;
+  font-size:15px;
+  margin-top:6px;
 }
 
-.status img{
-  width:60px;
-  margin-top:8px;
+.marketStatus{
+  margin-top:10px;
+  font-size:15px;
+  font-weight:bold;
 }
 
-/* WHATSAPP */
+.marketStatus.open{
+  color:#25D366;
+}
+
+.marketStatus.closed{
+  color:#ff5555;
+}
+
+
+/* ================= LOADING ================= */
+
+.loading{
+  width:100%;
+  text-align:center;
+  padding:30px 10px;
+  font-size:18px;
+  font-weight:bold;
+  color:#555;
+}
+
+
+/* ================= ERROR ================= */
+
+.errorBox{
+  width:100%;
+  background:white;
+  border-radius:15px;
+  padding:20px;
+  text-align:center;
+  color:red;
+  font-weight:bold;
+}
+
+
+/* ================= WHATSAPP ================= */
+
 .whatsapp{
   position:fixed;
-  right:14px;
-  bottom:75px;
-  width:52px;
-  height:52px;
+  right:18px;
+  bottom:95px;
+  width:58px;
+  height:58px;
   background:#25D366;
   border-radius:50%;
   display:flex;
   align-items:center;
   justify-content:center;
   color:white;
-  font-size:27px;
-  z-index:998;
+  font-size:30px;
+  text-decoration:none;
+  z-index:500;
+  box-shadow:0 3px 8px rgba(0,0,0,.25);
 }
 
-/* BOTTOM NAV */
+
+/* ================= BOTTOM NAV ================= */
+
 #bottomNav{
   position:fixed;
   bottom:0;
   left:0;
   width:100%;
-  height:65px;
-  background:#fff;
+  height:82px;
+  background:#0b0b0b;
   display:flex;
   justify-content:space-around;
   align-items:center;
-  padding:5px 4px;
   z-index:1000;
-  box-shadow:0 -2px 10px rgba(0,0,0,.12);
+  padding:5px 3px;
 }
 
 .navBtn{
-  width:23%;
-  height:44px;
-  background:#eee;
-  border-radius:12px;
+  width:19%;
+  height:70px;
+  color:white;
   display:flex;
+  flex-direction:column;
   align-items:center;
   justify-content:center;
+  border-radius:20px;
   cursor:pointer;
   font-size:14px;
+  text-align:center;
 }
 
-.active{
-  background:green;
+.navIcon{
+  font-size:29px;
+  margin-bottom:5px;
+}
+
+.navText{
+  font-size:15px;
+}
+
+.navBtn.active{
+  background:#171717;
+  box-shadow:0 0 18px rgba(220,170,45,.45);
   color:white;
 }
 
-/* SMALL PHONES */
-@media(max-width:360px){
-  .actionBtn{
-    font-size:12px;
-    padding:11px 4px;
+
+/* ================= MOBILE ================= */
+
+@media(max-width:420px){
+
+  .topHeader{
+    height:188px;
   }
 
-  .container{
-    gap:8px;
-    padding:8px;
-    padding-bottom:100px;
+  #menuBtn{
+    left:28px;
+    top:108px;
+    font-size:39px;
   }
 
-  .btn{
-    padding:11px 6px;
+  #userId{
+    top:73px;
+    min-width:238px;
+    font-size:26px;
   }
 
-  .gameName{
-    font-size:15px;
+  #wallet{
+    right:25px;
+    top:74px;
   }
 
-  .gameNumber{
+  .helpBox{
+    right:24px;
+    top:118px;
+  }
+
+  .banner{
+    height:238px;
+  }
+
+  .sloganRunning{
     font-size:23px;
   }
 
-  .navBtn{
-    font-size:12px;
-  }
-}
-
-/* LARGE MOBILE / TABLET */
-@media(min-width:600px){
-  .container{
-    grid-template-columns:repeat(3,minmax(0,1fr));
+  .actionIcon{
+    width:65px;
+    height:65px;
+    font-size:41px;
   }
 
-  .pageFrame{
-    height:160px;
+  .actionText{
+    font-size:16px;
   }
+
 }
+
+
+@media(max-width:360px){
+
+  #userId{
+    min-width:205px;
+    font-size:22px;
+  }
+
+  .banner{
+    height:205px;
+  }
+
+  .sloganRunning{
+    font-size:19px;
+  }
+
+  .actionIcon{
+    width:57px;
+    height:57px;
+    font-size:36px;
+  }
+
+  .actionText{
+    font-size:13px;
+  }
+
+  .marketBox{
+    padding:18px 12px;
+  }
+
+  .marketName{
+    font-size:18px;
+  }
+
+}
+
 </style>
+
 </head>
+
 
 <body>
 
-<div id="menuBtn" onclick="openMenu()">☰</div>
-<div id="userId">ID: 0000</div>
 
-<!-- 🔥 CLICKABLE WALLET -->
-<div id="wallet" onclick="goWallet()">₹ 0</div>
+<!-- =================================================
+     TOP HEADER
+================================================= -->
 
-<div class="actionBar">
-  <div class="actionBtn add" onclick="go('deposit.html')">Add Money</div>
-  <div class="actionBtn withdraw" onclick="go('withdraw.html')">Withdraw</div>
-  <div class="actionBtn share" onclick="shareApp()">Share</div>
+<div class="topHeader">
+
+
+  <!-- MENU -->
+
+  <div id="menuBtn"
+       onclick="openMenu()">
+
+    ☰
+
+  </div>
+
+
+  <!-- USER ID -->
+
+  <div id="userId">
+
+    AJAY DEMO
+
+  </div>
+
+
+  <!-- WALLET -->
+
+  <div id="wallet"
+       onclick="go('wallet.html')">
+
+    <span style="font-size:27px;">
+      🎧
+    </span>
+
+  </div>
+
+
+  <!-- HELP -->
+
+  <div class="helpBox">
+
+    <span class="helpIcon">
+      🎧
+    </span>
+
+    Help
+
+  </div>
+
 </div>
 
 
-<!-- 🔥 FRAME GAME BOX KE UPAR -->
-<div class="pageFrame">
-  <iframe src="wallet.html"></iframe>
+
+<!-- =================================================
+     MAIN
+================================================= -->
+
+<div class="main">
+
+
+  <!-- BANNER -->
+
+  <div class="banner">
+
+    <iframe
+      src="ajayq.html"
+      title="AjayQ">
+    </iframe>
+
+  </div>
+
+
+
+  <!-- SLOGAN -->
+
+  <div class="sloganBox">
+
+    <div class="sloganRunning">
+
+      किस्मत आपका इंतज़ार कर रही है! 🍀💵🛡️ सुरक्षित
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =================================================
+       ACTION BUTTONS
+  ================================================= -->
+
+  <div class="actionBar">
+
+
+    <!-- AJAY1 -->
+
+    <div class="actionBtn"
+         onclick="go('ajay1.html')">
+
+      <div class="actionIcon">
+        👛
+      </div>
+
+      <div class="actionText">
+        Ajay1
+      </div>
+
+    </div>
+
+
+
+    <!-- AJAY2 -->
+
+    <div class="actionBtn"
+         onclick="go('ajay2.html')">
+
+      <div class="actionIcon">
+        💰
+      </div>
+
+      <div class="actionText">
+        Ajay2
+      </div>
+
+    </div>
+
+
+
+    <!-- WHATSAPP -->
+
+    <div class="actionBtn"
+         onclick="openWhatsApp()">
+
+      <div class="actionIcon">
+        🟢
+      </div>
+
+      <div class="actionText">
+        WhatsApp
+      </div>
+
+    </div>
+
+
+
+    <!-- TELEGRAM -->
+
+    <div class="actionBtn"
+         onclick="openTelegram()">
+
+      <div class="actionIcon">
+        ➤
+      </div>
+
+      <div class="actionText">
+        Telegram
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =================================================
+       MARKET LIST
+  ================================================= -->
+
+  <div class="container"
+       id="container">
+
+    <div class="loading">
+
+      Markets loading...
+
+    </div>
+
+  </div>
+
 </div>
 
 
-<div class="container" id="container"></div>
 
-<a class="whatsapp" href="https://api.whatsapp.com/send?phone=919053922906" target="_blank">💬</a>
+<!-- =================================================
+     FLOATING WHATSAPP
+================================================= -->
 
-<!-- 🔥 UPDATED NAV -->
+<a
+  class="whatsapp"
+  href="https://api.whatsapp.com/send?phone=919053922906"
+  target="_blank">
+
+  💬
+
+</a>
+
+
+
+<!-- =================================================
+     BOTTOM NAV
+================================================= -->
+
 <div id="bottomNav">
-  <div class="navBtn active">Home</div>
-  <div class="navBtn">Game</div>
-  <div class="navBtn" onclick="goWallet()">Wallet</div>
-  <div class="navBtn">Profile</div>
+
+
+  <!-- RESULTS -->
+
+  <div class="navBtn"
+       onclick="go('ajayc.html')">
+
+    <div class="navIcon">
+      ♛
+    </div>
+
+    <div class="navText">
+      Results
+    </div>
+
+  </div>
+
+
+
+  <!-- HISTORY -->
+
+  <div class="navBtn"
+       onclick="go('ajayc.html')">
+
+    <div class="navIcon">
+      ◷
+    </div>
+
+    <div class="navText">
+      History
+    </div>
+
+  </div>
+
+
+
+  <!-- HOME -->
+
+  <div class="navBtn active"
+       onclick="go('home.html')">
+
+    <div class="navIcon">
+      🎮
+    </div>
+
+    <div class="navText">
+      Home
+    </div>
+
+  </div>
+
+
+
+  <!-- CHART -->
+
+  <div class="navBtn"
+       onclick="go('ajayc.html')">
+
+    <div class="navIcon">
+      ◔
+    </div>
+
+    <div class="navText">
+      Chart
+    </div>
+
+  </div>
+
+
+
+  <!-- SHARE -->
+
+  <div class="navBtn"
+       onclick="shareApp()">
+
+    <div class="navIcon">
+      ▷
+    </div>
+
+    <div class="navText">
+      Share
+    </div>
+
+  </div>
+
 </div>
+
+
+
+<!-- MENU -->
 
 <script src="menu.js"></script>
 
+
+
 <script>
-const user = JSON.parse(localStorage.getItem("user"));
+
+/* =====================================================
+   LOGIN CHECK
+===================================================== */
+
+const user =
+  JSON.parse(
+    localStorage.getItem("user")
+  );
+
 
 if(!user){
-  window.location.href = "index.html";
+
+  window.location.href =
+    "index.html";
+
 }
 
-const client = supabase.createClient(
-  "https://katbdbzoufiblnnsoxkk.supabase.co",
-  "sb_publishable_--fdpQMmSlUyt2ywjUErgQ_LXGvQH-a"
-);
 
-async function loadWallet(){
-  const { data } = await client
-    .from("login")
-    .select("balance")
-    .eq("id", user.id)
-    .single();
+/* =====================================================
+   SUPABASE CLIENT
+=====================================================
 
-  if(data){
-    document.getElementById("wallet").innerText = "₹ " + data.balance;
-    document.getElementById("userId").innerText = "ID: " + user.id;
+   Supabase connection यहां नहीं बनाया गया है.
+
+   यह केवल आपके supabase.js से client लेगा.
+===================================================== */
+
+const db =
+  window.client ||
+  window.supabaseClient ||
+  window.sb;
+
+
+/* =====================================================
+   SHOW USER ID
+===================================================== */
+
+function showUserId(){
+
+  if(!user){
+
+    return;
+
   }
+
+
+  const id =
+    user.id ||
+    user.user_id ||
+    user.mobile ||
+    "0000";
+
+
+  document.getElementById(
+    "userId"
+  ).innerText =
+    "ID: " + id;
+
 }
 
-function checkStatus(openTime, closeTime){
-  if(!openTime || !closeTime) return false;
 
-  let now = new Date();
+/* =====================================================
+   WALLET
+===================================================== */
 
-  const [oh, om] = openTime.split(":");
-  const [ch, cm] = closeTime.split(":");
+async function updateWallet(){
 
-  let open = new Date();
-  open.setHours(oh, om, 0);
+  try{
 
-  let close = new Date();
-  close.setHours(ch, cm, 0);
+
+    /*
+       सबसे पहले wallet.js का
+       loadWallet() इस्तेमाल होगा.
+    */
+
+    if(
+      typeof window.loadWallet ===
+      "function"
+    ){
+
+      await window.loadWallet();
+
+      return;
+
+    }
+
+
+    /*
+       अगर wallet.js में loadWallet()
+       नहीं है तो यहां कोई Supabase
+       connection create नहीं होगा.
+
+       इसलिए HTML में key नहीं रखी गई.
+    */
+
+    if(!db){
+
+      console.log(
+        "wallet.js / supabase.js client नहीं मिला."
+      );
+
+      return;
+
+    }
+
+
+    if(
+      !user ||
+      !user.id
+    ){
+
+      return;
+
+    }
+
+
+    const {
+      data,
+      error
+    } =
+      await db
+        .from("login")
+        .select("balance")
+        .eq("id",user.id)
+        .single();
+
+
+    if(error){
+
+      console.log(
+        "Wallet error:",
+        error.message
+      );
+
+      return;
+
+    }
+
+
+    if(data){
+
+      document.getElementById(
+        "wallet"
+      ).innerHTML =
+
+        '<span style="font-size:27px;">🎧</span><br>₹ ' +
+
+        (
+          data.balance || 0
+        );
+
+    }
+
+
+  }catch(error){
+
+    console.log(
+      "Wallet error:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   MARKET TIME CHECK
+===================================================== */
+
+function checkStatus(
+  openTime,
+  closeTime
+){
+
+  if(
+    !openTime ||
+    !closeTime
+  ){
+
+    return false;
+
+  }
+
+
+  const now =
+    new Date();
+
+
+  const openParts =
+    String(openTime).split(":");
+
+
+  const closeParts =
+    String(closeTime).split(":");
+
+
+  let open =
+    new Date();
+
+
+  open.setHours(
+    Number(openParts[0]),
+    Number(openParts[1]),
+    0,
+    0
+  );
+
+
+  let close =
+    new Date();
+
+
+  close.setHours(
+    Number(closeParts[0]),
+    Number(closeParts[1]),
+    0,
+    0
+  );
+
+
+  /*
+     Overnight market
+  */
 
   if(close < open){
-    close.setDate(close.getDate() + 1);
+
+    close.setDate(
+      close.getDate() + 1
+    );
+
+
     if(now < open){
-      now.setDate(now.getDate() + 1);
+
+      now.setDate(
+        now.getDate() + 1
+      );
+
     }
+
   }
 
-  return (now >= open && now <= close);
+
+  return(
+    now >= open &&
+    now <= close
+  );
+
 }
 
-async function loadButtons(){
 
-  let { data } = await client
-  .from("Game result")
-  .select("name, number, open, close");
+/* =====================================================
+   LOAD MARKETS FROM GAME RESULT
+===================================================== */
 
-  data.sort((a, b) => {
-    return checkStatus(b.open, b.close) - checkStatus(a.open, a.close);
-  });
+async function loadMarkets(){
 
-  let container = document.getElementById("container");
-  container.innerHTML = "";
+  const container =
+    document.getElementById(
+      "container"
+    );
 
-  data.forEach(item => {
 
-    let isOpen = checkStatus(item.open, item.close);
+  if(!db){
 
-    let btn = document.createElement("div");
-    btn.className = "btn";
+    container.innerHTML = `
 
-    btn.innerHTML = `
-      <div class="gameName">${item.name}</div>
-      <div class="gameNumber">${item.number || '**'}</div>
-      <div class="gameTime">${item.open} - ${item.close}</div>
-      <div class="status">
-        <img src="${isOpen 
-          ? 'https://cdn-icons-png.flaticon.com/512/190/190411.png' 
-          : 'https://cdn-icons-png.flaticon.com/512/463/463612.png'}">
+      <div class="errorBox">
+
+        Supabase client नहीं मिला।
+
+        <br><br>
+
+        अपना supabase.js check करें।
+
       </div>
+
     `;
 
-    if(isOpen){
-      btn.onclick = () => {
-        localStorage.setItem("market", item.name);
-        window.location.href = "game.html";
-      };
-    } else {
-      btn.style.opacity = "0.6";
+    return;
+
+  }
+
+
+  try{
+
+
+    const {
+      data,
+      error
+    } =
+      await db
+        .from("Game result")
+        .select(
+          "name, number, open, close"
+        );
+
+
+    if(error){
+
+      console.log(
+        "Market error:",
+        error
+      );
+
+
+      container.innerHTML = `
+
+        <div class="errorBox">
+
+          Market data load नहीं हो रहा।
+
+          <br><br>
+
+          ${escapeHTML(
+            error.message
+          )}
+
+        </div>
+
+      `;
+
+      return;
+
     }
 
-    container.appendChild(btn);
-  });
+
+    if(
+      !data ||
+      data.length === 0
+    ){
+
+      container.innerHTML = `
+
+        <div class="loading">
+
+          अभी कोई market उपलब्ध नहीं है।
+
+        </div>
+
+      `;
+
+      return;
+
+    }
+
+
+    /*
+       OPEN market पहले
+       CLOSED market बाद में
+    */
+
+    data.sort(
+      (a,b)=>{
+
+        return(
+
+          checkStatus(
+            b.open,
+            b.close
+          )
+
+          -
+
+          checkStatus(
+            a.open,
+            a.close
+          )
+
+        );
+
+      }
+    );
+
+
+    container.innerHTML =
+      "";
+
+
+    data.forEach(
+      item=>{
+
+
+        const isOpen =
+          checkStatus(
+            item.open,
+            item.close
+          );
+
+
+        const box =
+          document.createElement(
+            "div"
+          );
+
+
+        box.className =
+          isOpen
+            ? "marketBox openMarket"
+            : "marketBox closedMarket";
+
+
+        box.innerHTML = `
+
+          <div class="marketName">
+
+            ${escapeHTML(
+              item.name || "Market"
+            )}
+
+          </div>
+
+
+          <div class="marketNumber">
+
+            ${escapeHTML(
+              item.number || "**"
+            )}
+
+          </div>
+
+
+          <div class="marketTime">
+
+            ${escapeHTML(
+              item.open || "--"
+            )}
+
+            -
+
+            ${escapeHTML(
+              item.close || "--"
+            )}
+
+          </div>
+
+
+          <div class="marketStatus ${
+            isOpen
+              ? "open"
+              : "closed"
+          }">
+
+            ${
+              isOpen
+                ? "● OPEN"
+                : "● CLOSED"
+            }
+
+          </div>
+
+        `;
+
+
+        /*
+           केवल OPEN market पर
+           game.html खुलेगा.
+        */
+
+        if(isOpen){
+
+          box.onclick =
+            function(){
+
+              localStorage.setItem(
+                "market",
+                item.name
+              );
+
+
+              window.location.href =
+                "game.html";
+
+            };
+
+        }
+
+
+        container.appendChild(
+          box
+        );
+
+
+      }
+    );
+
+
+  }catch(error){
+
+
+    console.log(
+      "Market error:",
+      error
+    );
+
+
+    container.innerHTML = `
+
+      <div class="errorBox">
+
+        Market load करने में समस्या हुई।
+
+      </div>
+
+    `;
+
+  }
+
 }
+
+
+/* =====================================================
+   HTML SAFE TEXT
+===================================================== */
+
+function escapeHTML(value){
+
+  return String(value)
+
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+
+    .replace(
+      /</g,
+      "&lt;"
+    )
+
+    .replace(
+      />/g,
+      "&gt;"
+    )
+
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
 
 function go(page){
-  window.location.href = page;
+
+  window.location.href =
+    page;
+
 }
 
-function shareApp(){
-  navigator.share({
-    title: "My App",
-    text: "Join now",
-    url: window.location.href
-  });
+
+/* =====================================================
+   WHATSAPP
+===================================================== */
+
+function openWhatsApp(){
+
+  window.open(
+    "https://api.whatsapp.com/send?phone=919053922906",
+    "_blank"
+  );
+
 }
 
-function goWallet(){
-  window.location.href = "wallet.html";
+
+/* =====================================================
+   TELEGRAM
+===================================================== */
+
+function openTelegram(){
+
+  alert(
+    "Telegram link अभी set नहीं किया गया है।"
+  );
+
 }
 
-function logout(){
-  localStorage.removeItem("user");
-  window.location.href = "index.html";
+
+/* =====================================================
+   SHARE
+===================================================== */
+
+async function shareApp(){
+
+  try{
+
+
+    if(
+      navigator.share
+    ){
+
+      await navigator.share({
+
+        title:
+          "Ajay Demo",
+
+        text:
+          "Join now",
+
+        url:
+          window.location.href
+
+      });
+
+    }else{
+
+      alert(
+        "Share option उपलब्ध नहीं है।"
+      );
+
+    }
+
+
+  }catch(error){
+
+    console.log(
+      "Share cancelled"
+    );
+
+  }
+
 }
 
-loadWallet();
-loadButtons();
 
-setInterval(()=>{
-  loadButtons();
-  loadWallet();
-},60000);
+/* =====================================================
+   START
+===================================================== */
+
+showUserId();
+
+loadMarkets();
+
+updateWallet();
+
+
+/* =====================================================
+   AUTO REFRESH
+===================================================== */
+
+setInterval(
+  function(){
+
+    loadMarkets();
+
+    updateWallet();
+
+  },
+  60000
+);
+
 </script>
+
 
 </body>
 </html>
+```
