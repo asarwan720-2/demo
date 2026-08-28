@@ -20,15 +20,16 @@
 
 
 <!-- =================================================
-     YOUR SUPABASE FILE
-     URL / KEY यहां नहीं है
+     SUPABASE.JS
+     इसमें आपका Supabase client है
 ================================================= -->
 
 <script src="supabase.js"></script>
 
 
 <!-- =================================================
-     YOUR WALLET FILE
+     WALLET.JS
+     ID + Balance इसी से आएगा
 ================================================= -->
 
 <script src="wallet.js"></script>
@@ -36,7 +37,9 @@
 
 <style>
 
-/* ================= GLOBAL ================= */
+/* =================================================
+   GLOBAL
+================================================= */
 
 *{
   box-sizing:border-box;
@@ -51,7 +54,9 @@ body{
 }
 
 
-/* ================= TOP HEADER ================= */
+/* =================================================
+   TOP HEADER
+================================================= */
 
 .topHeader{
   height:188px;
@@ -100,15 +105,27 @@ body{
 #wallet{
   position:absolute;
   right:28px;
-  top:72px;
+  top:68px;
   color:white;
-  padding:8px 4px;
+  padding:3px 4px;
   font-size:17px;
   font-weight:bold;
   z-index:999;
   cursor:pointer;
-  width:65px;
+  width:72px;
   text-align:center;
+  line-height:20px;
+}
+
+.walletIcon{
+  display:block;
+  font-size:27px;
+  line-height:30px;
+}
+
+#walletBalance{
+  display:block;
+  font-size:16px;
 }
 
 
@@ -131,14 +148,18 @@ body{
 }
 
 
-/* ================= MAIN ================= */
+/* =================================================
+   MAIN
+================================================= */
 
 .main{
   padding:18px 14px 0;
 }
 
 
-/* ================= BANNER ================= */
+/* =================================================
+   BANNER
+================================================= */
 
 .banner{
   width:100%;
@@ -158,7 +179,9 @@ body{
 }
 
 
-/* ================= SLOGAN ================= */
+/* =================================================
+   RUNNING SLOGAN
+================================================= */
 
 .sloganBox{
   width:100%;
@@ -192,7 +215,9 @@ body{
 }
 
 
-/* ================= ACTION BUTTONS ================= */
+/* =================================================
+   ACTION BUTTONS
+================================================= */
 
 .actionBar{
   display:flex;
@@ -232,7 +257,9 @@ body{
 }
 
 
-/* ================= MARKET ================= */
+/* =================================================
+   MARKET
+================================================= */
 
 .container{
   width:100%;
@@ -248,14 +275,6 @@ body{
   text-align:center;
   color:white;
   box-shadow:0 5px 12px rgba(0,0,0,.18);
-}
-
-.marketBox.openMarket{
-  cursor:pointer;
-}
-
-.marketBox.closedMarket{
-  opacity:.60;
 }
 
 .marketName{
@@ -283,41 +302,22 @@ body{
   font-weight:bold;
 }
 
-.marketStatus.open{
+.marketOpen{
   color:#25D366;
 }
 
-.marketStatus.closed{
+.marketClosed{
   color:#ff5555;
 }
 
-
-/* ================= LOADING ================= */
-
-.loading{
-  width:100%;
-  text-align:center;
-  padding:30px 10px;
-  font-size:18px;
-  font-weight:bold;
-  color:#555;
+.marketClosedBox{
+  opacity:.60;
 }
 
 
-/* ================= ERROR ================= */
-
-.errorBox{
-  width:100%;
-  background:white;
-  border-radius:15px;
-  padding:20px;
-  text-align:center;
-  color:red;
-  font-weight:bold;
-}
-
-
-/* ================= WHATSAPP ================= */
+/* =================================================
+   WHATSAPP
+================================================= */
 
 .whatsapp{
   position:fixed;
@@ -338,7 +338,9 @@ body{
 }
 
 
-/* ================= BOTTOM NAV ================= */
+/* =================================================
+   BOTTOM NAV
+================================================= */
 
 #bottomNav{
   position:fixed;
@@ -384,7 +386,38 @@ body{
 }
 
 
-/* ================= MOBILE ================= */
+/* =================================================
+   LOADING
+================================================= */
+
+.loading{
+  width:100%;
+  text-align:center;
+  padding:30px 10px;
+  font-size:18px;
+  font-weight:bold;
+  color:#555;
+}
+
+
+/* =================================================
+   ERROR
+================================================= */
+
+.errorBox{
+  width:100%;
+  background:#fff;
+  border-radius:15px;
+  padding:20px;
+  text-align:center;
+  color:red;
+  font-weight:bold;
+}
+
+
+/* =================================================
+   MOBILE
+================================================= */
 
 @media(max-width:420px){
 
@@ -406,7 +439,7 @@ body{
 
   #wallet{
     right:25px;
-    top:74px;
+    top:68px;
   }
 
   .helpBox{
@@ -468,6 +501,10 @@ body{
     font-size:18px;
   }
 
+  #wallet{
+    right:18px;
+  }
+
 }
 
 </style>
@@ -507,10 +544,14 @@ body{
   <!-- WALLET -->
 
   <div id="wallet"
-       onclick="go('wallet.html')">
+       onclick="openWallet()">
 
-    <span style="font-size:27px;">
+    <span class="walletIcon">
       🎧
+    </span>
+
+    <span id="walletBalance">
+      ₹ 0
     </span>
 
   </div>
@@ -539,7 +580,9 @@ body{
 <div class="main">
 
 
-  <!-- BANNER -->
+  <!-- =================================================
+       BANNER
+  ================================================= -->
 
   <div class="banner">
 
@@ -552,7 +595,9 @@ body{
 
 
 
-  <!-- SLOGAN -->
+  <!-- =================================================
+       SLOGAN
+  ================================================= -->
 
   <div class="sloganBox">
 
@@ -639,12 +684,13 @@ body{
 
     </div>
 
+
   </div>
 
 
 
   <!-- =================================================
-       MARKET LIST
+       MARKETS
   ================================================= -->
 
   <div class="container"
@@ -657,6 +703,7 @@ body{
     </div>
 
   </div>
+
 
 </div>
 
@@ -771,7 +818,9 @@ body{
 
 
 
-<!-- MENU -->
+<!-- =================================================
+     MENU.JS
+================================================= -->
 
 <script src="menu.js"></script>
 
@@ -783,13 +832,13 @@ body{
    LOGIN CHECK
 ===================================================== */
 
-const user =
+const homeUser =
   JSON.parse(
     localStorage.getItem("user")
   );
 
 
-if(!user){
+if(!homeUser){
 
   window.location.href =
     "index.html";
@@ -798,158 +847,26 @@ if(!user){
 
 
 /* =====================================================
-   SUPABASE CLIENT
+   SUPABASE
 =====================================================
 
-   Supabase connection यहां नहीं बनाया गया है.
+   IMPORTANT:
+   Supabase connection यहां नहीं बनाया गया।
 
-   यह केवल आपके supabase.js से client लेगा.
+   आपका supabase.js:
+
+   const supabaseClient =
+       supabase.createClient(...);
+
+   उसी supabaseClient का इस्तेमाल होगा।
 ===================================================== */
-
-const db =
-  window.client ||
-  window.supabaseClient ||
-  window.sb;
-
-
-/* =====================================================
-   SHOW USER ID
-===================================================== */
-
-function showUserId(){
-
-  if(!user){
-
-    return;
-
-  }
-
-
-  const id =
-    user.id ||
-    user.user_id ||
-    user.mobile ||
-    "0000";
-
-
-  document.getElementById(
-    "userId"
-  ).innerText =
-    "ID: " + id;
-
-}
-
-
-/* =====================================================
-   WALLET
-===================================================== */
-
-async function updateWallet(){
-
-  try{
-
-
-    /*
-       सबसे पहले wallet.js का
-       loadWallet() इस्तेमाल होगा.
-    */
-
-    if(
-      typeof window.loadWallet ===
-      "function"
-    ){
-
-      await window.loadWallet();
-
-      return;
-
-    }
-
-
-    /*
-       अगर wallet.js में loadWallet()
-       नहीं है तो यहां कोई Supabase
-       connection create नहीं होगा.
-
-       इसलिए HTML में key नहीं रखी गई.
-    */
-
-    if(!db){
-
-      console.log(
-        "wallet.js / supabase.js client नहीं मिला."
-      );
-
-      return;
-
-    }
-
-
-    if(
-      !user ||
-      !user.id
-    ){
-
-      return;
-
-    }
-
-
-    const {
-      data,
-      error
-    } =
-      await db
-        .from("login")
-        .select("balance")
-        .eq("id",user.id)
-        .single();
-
-
-    if(error){
-
-      console.log(
-        "Wallet error:",
-        error.message
-      );
-
-      return;
-
-    }
-
-
-    if(data){
-
-      document.getElementById(
-        "wallet"
-      ).innerHTML =
-
-        '<span style="font-size:27px;">🎧</span><br>₹ ' +
-
-        (
-          data.balance || 0
-        );
-
-    }
-
-
-  }catch(error){
-
-    console.log(
-      "Wallet error:",
-      error
-    );
-
-  }
-
-}
 
 
 /* =====================================================
    MARKET TIME CHECK
 ===================================================== */
 
-function checkStatus(
+function checkMarketStatus(
   openTime,
   closeTime
 ){
@@ -969,11 +886,13 @@ function checkStatus(
 
 
   const openParts =
-    String(openTime).split(":");
+    String(openTime)
+      .split(":");
 
 
   const closeParts =
-    String(closeTime).split(":");
+    String(closeTime)
+      .split(":");
 
 
   let open =
@@ -1001,7 +920,7 @@ function checkStatus(
 
 
   /*
-     Overnight market
+     अगर close अगली तारीख को है
   */
 
   if(close < open){
@@ -1031,7 +950,7 @@ function checkStatus(
 
 
 /* =====================================================
-   LOAD MARKETS FROM GAME RESULT
+   LOAD MARKETS
 ===================================================== */
 
 async function loadMarkets(){
@@ -1042,27 +961,6 @@ async function loadMarkets(){
     );
 
 
-  if(!db){
-
-    container.innerHTML = `
-
-      <div class="errorBox">
-
-        Supabase client नहीं मिला।
-
-        <br><br>
-
-        अपना supabase.js check करें।
-
-      </div>
-
-    `;
-
-    return;
-
-  }
-
-
   try{
 
 
@@ -1070,18 +968,20 @@ async function loadMarkets(){
       data,
       error
     } =
-      await db
+      await supabaseClient
+
         .from("Game result")
+
         .select(
-          "name, number, open, close"
+          "name,number,open,close"
         );
 
 
     if(error){
 
-      console.log(
+      console.error(
         "Market error:",
-        error
+        error.message
       );
 
 
@@ -1089,7 +989,7 @@ async function loadMarkets(){
 
         <div class="errorBox">
 
-          Market data load नहीं हो रहा।
+          Market load नहीं हुआ।
 
           <br><br>
 
@@ -1128,7 +1028,6 @@ async function loadMarkets(){
 
     /*
        OPEN market पहले
-       CLOSED market बाद में
     */
 
     data.sort(
@@ -1136,16 +1035,20 @@ async function loadMarkets(){
 
         return(
 
-          checkStatus(
-            b.open,
-            b.close
+          Number(
+            checkMarketStatus(
+              b.open,
+              b.close
+            )
           )
 
           -
 
-          checkStatus(
-            a.open,
-            a.close
+          Number(
+            checkMarketStatus(
+              a.open,
+              a.close
+            )
           )
 
         );
@@ -1163,7 +1066,7 @@ async function loadMarkets(){
 
 
         const isOpen =
-          checkStatus(
+          checkMarketStatus(
             item.open,
             item.close
           );
@@ -1177,8 +1080,8 @@ async function loadMarkets(){
 
         box.className =
           isOpen
-            ? "marketBox openMarket"
-            : "marketBox closedMarket";
+            ? "marketBox"
+            : "marketBox marketClosedBox";
 
 
         box.innerHTML = `
@@ -1218,8 +1121,8 @@ async function loadMarkets(){
 
           <div class="marketStatus ${
             isOpen
-              ? "open"
-              : "closed"
+              ? "marketOpen"
+              : "marketClosed"
           }">
 
             ${
@@ -1234,27 +1137,8 @@ async function loadMarkets(){
 
 
         /*
-           केवल OPEN market पर
-           game.html खुलेगा.
+           केवल status/display रखा गया है।
         */
-
-        if(isOpen){
-
-          box.onclick =
-            function(){
-
-              localStorage.setItem(
-                "market",
-                item.name
-              );
-
-
-              window.location.href =
-                "game.html";
-
-            };
-
-        }
 
 
         container.appendChild(
@@ -1268,9 +1152,8 @@ async function loadMarkets(){
 
   }catch(error){
 
-
-    console.log(
-      "Market error:",
+    console.error(
+      "Market loading failed:",
       error
     );
 
@@ -1291,7 +1174,7 @@ async function loadMarkets(){
 
 
 /* =====================================================
-   HTML SAFE TEXT
+   SAFE HTML
 ===================================================== */
 
 function escapeHTML(value){
@@ -1339,6 +1222,18 @@ function go(page){
 
 
 /* =====================================================
+   WALLET PAGE
+===================================================== */
+
+function openWallet(){
+
+  window.location.href =
+    "wallet.html";
+
+}
+
+
+/* =====================================================
    WHATSAPP
 ===================================================== */
 
@@ -1373,7 +1268,6 @@ async function shareApp(){
 
   try{
 
-
     if(
       navigator.share
     ){
@@ -1399,7 +1293,6 @@ async function shareApp(){
 
     }
 
-
   }catch(error){
 
     console.log(
@@ -1412,28 +1305,18 @@ async function shareApp(){
 
 
 /* =====================================================
-   START
+   START MARKET SYSTEM
 ===================================================== */
-
-showUserId();
 
 loadMarkets();
 
-updateWallet();
-
 
 /* =====================================================
-   AUTO REFRESH
+   MARKET AUTO REFRESH
 ===================================================== */
 
 setInterval(
-  function(){
-
-    loadMarkets();
-
-    updateWallet();
-
-  },
+  loadMarkets,
   60000
 );
 
