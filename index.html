@@ -84,7 +84,7 @@ if(!mobile || !password){
 try{
 
 let { data, error } = await client
-.from("login")
+.from("wallet")
 .select("id, mobile")
 .eq("mobile", mobile)
 .eq("password", password)
